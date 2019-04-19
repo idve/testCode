@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>无缝切换轮播图</title>
+    <link rel="stylesheet" href="./css/test.css">
+</head>
+<body>
+<div class="slide">
+    <!-- 导航点 -->
+    <ul class="slide-nav">
+        <li class="active"></li>
+        <li></li>
+        <li></li>
+
+    </ul>
+    <!-- /导航点 -->
+    <!-- 轮播图 -->
+    <div class="slide-content">
+
+    </div>
+    <!-- /轮播图 -->
+    <!-- 按钮 -->
+    <!-- /按钮 -->
+</div>
+<div>
+    <ur id="list">
+    </ur>
+
+</div>
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+<script type="text/javascript" src="./js/test.js"></script>
+<script type="text/javascript">
+    $(function(){
+
+        $.ajax({
+            url:"http://192.168.89.72:8810/data",
+            async : false,
+            dataType : "json",
+            success : function(data) {
+                //添加图片
+                for( i = 0; i < data.data.slide.length; i++) {
+                    var datas = data.data.slide[i];
+                    $(".slide-content").append("<div class='slide-item'><a href='"+datas.href+ "'><img src='"+datas.img+"' alt='"+datas.description+"'></a></div>")
+                }
+
+                //添加图文
+                for( i = 0; i < data.data.list.length; i++) {
+                    var lists = data.data.list[i];
+                    $("#list").append(
+                        "  <li>\n" +
+                        "            <div class='container'>\n" +
+                        "                <div class='leftContent'><img src='"+lists.cover+"'></div>\n" +
+                        "                <div class='rightContent'>\n" +
+                        "                    <h3><a href='"+lists.url+"'>"+lists.title+"</a></h3>\n" +
+                        "                    <p>"+lists.description+"</p>\n" +
+                        "                </div>\n" +
+                        "            </div>\n" +
+                        "        </li>"
+
+                    )
+                }
+
+
+
+            }
+        });
+
+        $('.slide').slide();
+    });
+</script>
+</body>
+</html>
